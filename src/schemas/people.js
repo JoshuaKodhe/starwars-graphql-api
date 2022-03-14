@@ -2,14 +2,15 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   type Query {
-    peopleForHome: People!
+    peopleForHome(page: Int): People!
+    personByName(name: String): Person
   }
 
   type People {
     count: Int
     next: String
     previous: String
-    result: [Person]
+    results: [Person]
   }
 
   type Person {
@@ -17,7 +18,19 @@ const typeDefs = gql`
     height: String
     mass: String
     gender: String
-    homeworld: String
+    homeworld: Homeworld
+  }
+
+  type Homeworld {
+    name: String
+    rotation_period: String
+    orbital_period: String
+    diameter: String
+    climate: String
+    gravity: String
+    terrain: String
+    surface_water: String
+    population: String
   }
 `;
 
