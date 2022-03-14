@@ -1,4 +1,4 @@
-const { RESTDataSource } = require('apollo-datasource-rest');
+import { RESTDataSource } from 'apollo-datasource-rest';
 
 class PersonAPI extends RESTDataSource {
   constructor() {
@@ -6,17 +6,17 @@ class PersonAPI extends RESTDataSource {
     this.baseURL = 'https://swapi.dev/api';
   }
 
-  getPeopleForHome(page) {
+  getPeopleForHome(page: number) {
     return this.get(`/people/?page=${page}`);
   }
 
-  getPersonByName(name) {
+  getPersonByName(name: string) {
     return this.get(`/people/?search=${name}`);
   }
 
-  getHomePlanet(planetId) {
+  getHomePlanet(planetId: number) {
     return this.get(`/planets/${planetId}/`);
   }
 }
 
-module.exports = PersonAPI;
+export default PersonAPI;
