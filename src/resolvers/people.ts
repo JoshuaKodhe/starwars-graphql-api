@@ -1,16 +1,19 @@
-const resolvers = {
+import { IResolvers } from '@graphql-tools/utils';
+import { Context } from './../types';
+
+const resolvers: IResolvers = {
   Query: {
     peopleForHome: (
-      _: any,
+      _: unknown,
       { page }: { page: number },
-      { dataSources }: { dataSources: any },
+      { dataSources }: Context,
     ) => {
       return dataSources.personAPI.getPeopleForHome(page);
     },
     personByName: async (
-      _: any,
+      _: unknown,
       { name }: { name: string },
-      { dataSources }: { dataSources: any },
+      { dataSources }: Context,
     ) => {
       try {
         const { results } = await dataSources.personAPI.getPersonByName(name);
@@ -37,8 +40,8 @@ const resolvers = {
   Person: {
     homeworld: (
       { homeworld }: { homeworld: string },
-      _: any,
-      { dataSources }: { dataSources: any },
+      _: unknown,
+      { dataSources }: Context,
     ) => {
       const id = parseInt(homeworld.match(/\/planets\/([0-9]+)/)[1]);
       return dataSources.personAPI.getHomePlanet(id);
