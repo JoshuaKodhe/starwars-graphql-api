@@ -1,9 +1,9 @@
-const { ApolloServer } = require('apollo-server');
-const typeDefs = require('./schemas/people');
-const resolvers = require('./resolvers/people');
-const PersonAPI = require('./dataSources/person-api');
+import { ApolloServer } from 'apollo-server';
+import typeDefs from './schemas/people';
+import resolvers from './resolvers/people';
+import PersonAPI from './dataSources/person-api';
 
-async function startServer(typeDefs, resolvers) {
+async function startServer(typeDefs: any, resolvers: any) {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -13,7 +13,7 @@ async function startServer(typeDefs, resolvers) {
   });
 
   const { url, port } = await server.listen({
-      port: process.env.PORT || 4000
+    port: process.env.PORT || 4000,
   });
   console.log(`
       🚀  Server is running
