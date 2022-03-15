@@ -5,6 +5,7 @@ import PersonAPI from './dataSources/person-api';
 
 async function startServer(typeDefs: any, resolvers: any) {
   const server = new ApolloServer({
+    cors: true,
     typeDefs,
     resolvers,
     dataSources: () => ({
