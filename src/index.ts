@@ -1,26 +1,27 @@
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from 'apollo-server-express';
 import typeDefs from './schemas/people';
 import resolvers from './resolvers/people';
 import PersonAPI from './dataSources/person-api';
 
-async function startServer(typeDefs: any, resolvers: any) {
-  const server = new ApolloServer({
-    cors: true,
-    typeDefs,
-    resolvers,
-    dataSources: () => ({
-      personAPI: new PersonAPI(),
-    }),
-  });
+import express from 'express';
+import cors from 'cors';
 
-  const { url, port } = await server.listen({
-    port: process.env.PORT || 4000,
-  });
-  console.log(`
-      🚀  Server is running
-      🔉  Listening on port ${port}
-      📭  Query at ${url}
-    `);
-}
+const app = express();
 
-startServer(typeDefs, resolvers);
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  dataSources: () => ({
+    personAPI: new PersonAPI(),
+  }),
+});
+
+const PORT = process.env.PORT || 4000;
+
+app.use('*', cors());
+server.start().then(res => {
+  server.applyMiddleware({ app });
+  app.listen({ port: PORT }, () => {
+    console.log(`🚀  Server ready at http://localhost:${PORT}/graphql`);
+  });
+});
